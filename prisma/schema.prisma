@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Guest {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  Bookings Booking[]
+}
+
+model Booking {
+  id        Int      @id @default(autoincrement())
+  guestId   Int      @map("guest_id")
+  name      String
+  email     String
+  checkIn   DateTime @map("check_in")
+  checkOut  DateTime @map("check_out")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  Guest     Guest   @relation(fields: [guestId], references: [id])
+}
