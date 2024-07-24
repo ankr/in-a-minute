@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: api
+      POSTGRES_PASSWORD: api
+      POSTGRES_DB: api
+    # volumes:
+    #   - ./docker/entrypoints/postgres:/docker-entrypoint-initdb.d/
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ['CMD-SHELL', "sh -c 'pg_isready -U api -d api'"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
