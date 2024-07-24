@@ -7,25 +7,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Guest {
+model Properties {
   id        Int      @id @default(autoincrement())
   name      String
-  email     String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  Bookings Booking[]
+  Messages Messages[]
+  Reservations Reservations[]
 }
 
-model Booking {
+model Guests {
   id        Int      @id @default(autoincrement())
-  guestId   Int      @map("guest_id")
   name      String
-  email     String
-  checkIn   DateTime @map("check_in")
-  checkOut  DateTime @map("check_out")
+  phone     String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  Guest     Guest   @relation(fields: [guestId], references: [id])
+  Messages Messages[]
+  Reservations Reservations[]
+}
+
+model Reservations {
+  id         Int      @id @default(autoincrement())
+  guestId    Int      @map("guest_id")
+  propertyId Int      @map("property_id")
+  checkIn    DateTime @map("check_in")
+  checkOut   DateTime @map("check_out")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  Guest    Guests @relation(fields: [guestId], references: [id])
+  Property Properties @relation(fields: [propertyId], references: [id])
+}
+
+model Messages {
+  id         Int      @id @default(autoincrement())
+  guestId    Int      @map("guest_id")
+  propertyId Int      @map("property_id")
+  message    String
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  Guest    Guests @relation(fields: [guestId], references: [id])
+  Property Properties @relation(fields: [propertyId], references: [id])
 }

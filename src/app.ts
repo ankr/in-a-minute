@@ -1,23 +1,18 @@
-import express, { Express, Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import express, { Application } from 'express';
+import guestsController from './controllers/guests';
+import messagesController from './controllers/messages';
+import propertiesController from './controllers/properties';
+import reservationsController from './controllers/reservations';
 
-const app: Express = express();
+const app: Application = express();
 const port = 3000;
 
-const prisma = new PrismaClient();
+app.use(express.json());
 
-app.get('/', async (req: Request, res: Response) => {
-  await prisma.guest.create({
-    data: {
-      name: 'Alice',
-      email: 'alice@wonderland.com',
-    },
-  });
-
-  const guests = await prisma.guest.findMany();
-
-  res.send(guests);
-});
+app.use('/guests', guestsController);
+app.use('/messages', messagesController);
+app.use('/properties', propertiesController);
+app.use('/reservations', reservationsController);
 
 app.listen(port, () => {
   console.log(`listening at port ${port}`);
