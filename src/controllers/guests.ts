@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 router.post('/signup', validateRequestBody(signupSchema), async (req, res) => {
   const { name, phone } = req.body;
-  const result = await signup({ name, phone });
+  const result = await signupGuest({ name, phone });
 
   res.send(result);
 });
