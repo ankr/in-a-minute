@@ -14,5 +14,10 @@
     "baseUrl": "./",
     "incremental": true,
     "paths": {}
-  }
+  },
+  "environment": {
+    "node": true,
+    "jest": true
+  },
+  "lib": ["jest"]
 }

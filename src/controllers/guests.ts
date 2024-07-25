@@ -16,7 +16,7 @@ router.post('/signup', validateRequestBody(signupSchema), async (req, res) => {
   const { name, phone } = req.body;
   const result = await signupGuest({ name, phone });
 
-  res.send(result);
+  res.status(201).send(result);
 });
 
 export default router;

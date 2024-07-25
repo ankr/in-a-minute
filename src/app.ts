@@ -4,16 +4,20 @@ import messagesController from './controllers/messages';
 import propertiesController from './controllers/properties';
 import reservationsController from './controllers/reservations';
 
-const app: Application = express();
-const port = 3000;
+/**
+ * Create a new instance of the main express application
+ *
+ * This function can reused in testing.
+ */
+export const createApp = () => {
+  const app: Application = express();
 
-app.use(express.json());
+  app.use(express.json());
 
-app.use('/guests', guestsController);
-app.use('/messages', messagesController);
-app.use('/properties', propertiesController);
-app.use('/reservations', reservationsController);
+  app.use('/guests', guestsController);
+  app.use('/messages', messagesController);
+  app.use('/properties', propertiesController);
+  app.use('/reservations', reservationsController);
 
-app.listen(port, () => {
-  console.log(`listening at port ${port}`);
-});
+  return app;
+};
