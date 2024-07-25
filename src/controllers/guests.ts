@@ -7,9 +7,9 @@ import { signupSchema } from '../schemas/guests';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const users = await getAllGuests();
+  const guests = await getAllGuests();
 
-  res.send(users);
+  res.status(200).send(guests);
 });
 
 router.post('/signup', validateRequestBody(signupSchema), async (req, res) => {

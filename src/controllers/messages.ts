@@ -5,9 +5,9 @@ import { getAllMessages } from '../services/messages';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const users = await getAllMessages();
+  const messages = await getAllMessages();
 
-  res.send(users);
+  res.status(200).send(messages);
 });
 
 export default router;

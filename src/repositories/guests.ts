@@ -25,11 +25,6 @@ export const fetchAllGuestsForProperty = (propertyId: number) => {
   });
 };
 
-export const storeGuest = ({ name, phone }: CreateGuestPayload) => {
-  return db.guests.create({
-    data: {
-      name,
-      phone,
-    },
-  });
+export const storeGuest = (data: CreateGuestPayload) => {
+  return db.guests.create({ data });
 };

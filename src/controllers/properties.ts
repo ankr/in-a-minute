@@ -7,11 +7,14 @@ const router = Router();
 router.get('/', async (req, res) => {
   const users = await getAllProperties();
 
-  res.send(users);
+  res.status(200).send(users);
 });
 
 router.get('/:id/guests', async (req, res) => {
-  res.send('get guests');
+  const { id } = req.params;
+  const result = await getGuestsForProperty(+id);
+
+  res.status(200).send(result);
 });
 
 export default router;

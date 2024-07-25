@@ -3,16 +3,18 @@ import request from 'supertest';
 import { createApp } from '../app';
 import { getConnection } from '../db';
 import { createGuest } from '../../tests/fixtures';
+import { PrismaClient } from '@prisma/client';
 
 describe('/guests', () => {
   let app: Application;
-  let db = getConnection();
+  let db: PrismaClient;
 
   /**
    * Create an app once before all tests
    */
   beforeAll(() => {
     app = createApp();
+    db = getConnection();
   });
 
   /**
