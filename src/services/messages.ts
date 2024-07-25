@@ -1,5 +1,5 @@
-import { getAll } from '../repositories/messages';
+import { fetchAllMessages } from '../repositories/messages';
 
 export const getAllMessages = async () => {
-  return getAll();
+  return fetchAllMessages();
 };

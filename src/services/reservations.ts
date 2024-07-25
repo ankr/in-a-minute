@@ -1,5 +1,5 @@
-import { getAll } from '../repositories/reservations';
+import { fetchAllReservations } from '../repositories/reservations';
 
 export const getAllReservations = async () => {
-  return getAll();
+  return fetchAllReservations();
 };

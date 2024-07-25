@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { getConnection } from '../db';
 
-const prisma = new PrismaClient();
+const db = getConnection();
 
-export const getAll = async () => {
-  return await prisma.messages.findMany();
+export const fetchAllMessages = async () => {
+  return await db.messages.findMany();
 };

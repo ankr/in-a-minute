@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { getAllGuests, signup } from '../services/guests';
+import { getAllGuests, signupGuest } from '../services/guests';
 import { validateRequestBody } from '../middleware/validateRequestBody';
 import { signupSchema } from '../schemas/guests';
 

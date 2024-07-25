@@ -1,18 +1,32 @@
-import { PrismaClient } from '@prisma/client';
+import { getConnection } from '../db';
 
-const prisma = new PrismaClient();
+const db = getConnection();
 
-export interface CreatePayload {
+export interface CreateGuestPayload {
   name: string;
   phone: string;
 }
 
-export const getAll = async () => {
-  return await prisma.guests.findMany();
+export const fetchAllGuests = async () => {
+  return await db.guests.findMany();
 };
 
-export const create = async ({ name, phone }: CreatePayload) => {
-  return prisma.guests.create({
+export const fetchAllGuestsForProperty = (propertyId: number) => {
+  return db.guests.findMany({
+    where: {
+      Reservations: {
+        some: {
+          Property: {
+            id: propertyId,
+          },
+        },
+      },
+    },
+  });
+};
+
+export const storeGuest = ({ name, phone }: CreateGuestPayload) => {
+  return db.guests.create({
     data: {
       name,
       phone,

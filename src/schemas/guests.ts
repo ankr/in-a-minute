@@ -5,4 +5,4 @@ export const signupSchema = z.object({
   phone: z.string(),
 });
 
-export const SIGNUP_SCHEMA = z.infer<typeof signupSchema>;
+export type SIGNUP_SCHEMA = z.infer<typeof signupSchema>;

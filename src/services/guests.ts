@@ -1,14 +1,13 @@
-import { getAll, create } from '../repositories/guests';
-
-export interface SignupPayload {
-  name: string;
-  phone: string;
-}
+import {
+  CreateGuestPayload,
+  fetchAllGuests,
+  storeGuest,
+} from '../repositories/guests';
 
 export const getAllGuests = async () => {
-  return getAll();
+  return fetchAllGuests();
 };
 
-export const signup = async (data: SignupPayload) => {
-  return create(data);
+export const signupGuest = (data: CreateGuestPayload) => {
+  return storeGuest(data);
 };
