@@ -1,8 +1,8 @@
 # in-a-minute
 
-Some arbritrary codebase :rolling-eyes:
+Some arbritrary codebase :shrug:
 
-So this is obviously not a complete product due to the limited timeline. However I think I have covered a lot of the basics in regards to data structure and developer experience. Please see the "Considerations" section down below.
+So this is obviously not a complete product due to the limited timeline. However I think I have covered a lot of the basics in regards to data structure and developer experience. Please see the "Design choices" section down below.
 
 ## Installationm
 
@@ -39,45 +39,48 @@ I choose to use a layered approach using `controller`, `services` and `repositor
 
 **controllers**
 
-- These are responsible for handling incoming requests and talk to the rest of the application using **services**.
+- These are responsible for handling incoming requests and talk to the rest of the application through **services**.
 - One could argue for adding an additional layer on top of this; **routes** which would just be mapping HTTP requests to Controllers.
 
 **services**
 
-- This is the bread and butter of the business logic, they take inputs from controller, do their magic and talk to the database through **repositories**.
-- Additionally things like background workers etc. could be using services to do business logic.
+- This is the bread and butter of the business logic, they take inputs from controller (or other), do their magic and talk to the database through **repositories**.
+- Additionally things like workers etc. could be using services to do business logic.
 
 **repositories**
 
-- These are the entry point to the database and responsible for maintain data integrity.
+- These are the entry point to the database and responsible for maintaining data integrity.
 - These are the only files that should be talking directly to the database and ORM.
 
-Depending on the level of abstractions you could also introduce something like a **model** layer which would be representing the database structure in the application, however since I'm using **Prisma** for modelling the data I'm mostly relying on their generated types.
+Depending on the level of abstractions you could also introduce something like a **model** layer which would be representing the data structure in the application - connecting the ORM and application.
 
 ## Conderations
 
 - Auth
-  Both authentication as well as authorization could be handled using JWTs which are then intepreted by the application. There would need to be a service in place for dispatching and refreshing these tokens. Out of scope for this assignment.
+  Both authentication as well as authorization could be handled using JWTs which are then intepreted by the application.
+  The JWTs would contain _claims_ as to which level of authorization they contain.
+  There would need to be a service in place for dispatching and refreshing these tokens - but of scope for this assignment.
 
 - Error handling
   Ideally any errors should be caught and sent to a monitoring system like NewRelic, Datadog, Sentry or likewise.
   Remember to listen for the `unhandledRejection` and `uncaughtException` etc events, to ensure you catch any error happening outside the application.
   Implementing a set of predefined exception types as well as a generic error handler that inspect those could aid in this process.
+  Having either _repository layer_, the _service layer_ (or both) implementing a pattern using an [Either](https://www.sandromaglione.com/articles/either-error-handling-functional-programming) type could ease the error handling as well as helping making the application typesafe.
 
 - Logging
   `pino` is the preferred logger in node world and can dispatch to any desired persistent storage.
   Unfortunately I didn't have time to implement proper logging.
 
 - Documentation
-  If this was an ongoing project I would definitely look into OpenAPI, and any npm plugins that could automate this process.
-  It's also possible to generate TS types from OAS specs and use them in codebase, but again a bit out of scope for this application.
+  If I had the time I would definitely look into OpenAPI, and any npm plugins that could automate this process.
+  It's also possible to generate TS types from OA specs and use them in codebase, but again a bit out of scope for this application.
 
 - Migrations
-  Any communication with the database is handled by the Prisma module. This also provides tools for creating and applying database migrations.
+  Any communication with the database is handled by the Prisma module. This also [provides tools](https://www.prisma.io/docs/orm/prisma-migrate) for creating and applying database migrations.
 
 - Security
   I did not have time to implement any authentication or authorization mechanisms due to the time restraint. However I would default to be using JWTs for handling this part of the application.
-  In terms of SQL injection attacks they should be mitigated as I'm using the Prisma ORM. Even [raw queries](https://www.prisma.io/docs/orm/prisma-client/queries/raw-database-access/raw-queries#executeraw) are "safe" provided you utilize tagged template strings.
+  In terms of SQL injection attacks they don't apply as I'm using the Prisma ORM. Even [raw queries](https://www.prisma.io/docs/orm/prisma-client/queries/raw-database-access/raw-queries#executeraw) are "safe" provided you utilize tagged template strings.
 
 - Stability
   Synchronous requests are easy, you just tell the user that there was an error - as opposed to asynchronous requests where you will need to implement retry mechanisms.
@@ -85,7 +88,8 @@ Depending on the level of abstractions you could also introduce something like a
   If every automated process fails it's essential that a report is raised to a human being so the issue can be inspected and handled manually.
 
 - Testing
-  This setup is creating an additional Postgres database used only for testing. However due to limitations in Prisma it's not feasible to run tests within a transaction (which would prevent database updates from leaking across tests). And thus tests are not able to run in parallel due to race conditions, this is the reason for the `--runInBand` flag I have in `package.json` for the `test` command.
+  This setup is creating an additional Postgres database used only for testing. However due to limitations in Prisma it's not feasible to run tests within a transaction (which would prevent database updates from leaking across tests). And thus tests are not able to run in parallel due to race conditions.
+  This is the reason for the `--runInBand` flag I have in `package.json` for the `test` command.
 
 - Validation/Sanitization of input
   For the `/guests/signup` I implemented a very simple validation function using Zod schemas.
@@ -93,4 +97,4 @@ Depending on the level of abstractions you could also introduce something like a
 
 - Versioning of endpoints
   Always a fun issue to tackle. But I believe this codebase allows for easy introduction of versioned endpoints. Firstly controllers are isolated to a single file as well as a "base path" as seen in `app.ts`.
-  This makes it easy to introduce an additional level in the api path schema for versioning.
+  This makes it trivial to introduce an additional level in the api paths for versioning.
