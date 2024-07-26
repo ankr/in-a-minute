@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
-import { getAllProperties, getGuestsForProperty } from '../services/properties';
+import { getAllProperties } from '../services/properties';
+import { getAllGuestsForProperty } from '../services/guests';
 
 const router = Router();
 
@@ -12,7 +13,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id/guests', async (req, res) => {
   const { id } = req.params;
-  const result = await getGuestsForProperty(+id);
+  const result = await getAllGuestsForProperty(+id);
 
   res.status(200).send(result);
 });

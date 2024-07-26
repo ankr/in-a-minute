@@ -1,9 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { getConnection } from '../db';
 import {
-  getReservationsForGuest,
-  getReservationsForProperty,
-  storeReservation,
+  fetchAllReservationsForGuest,
+  fetchAllReservationsForProperty,
 } from './reservations';
 import {
   createGuest,
@@ -32,7 +31,7 @@ describe('reservations repository', () => {
     await db.guests.deleteMany();
   });
 
-  describe('getReservationsForProperty', () => {
+  describe('fetchAllReservationsForProperty', () => {
     it('should return a list of reservations for given property', async () => {
       // Given
       const owner = await createGuest();
@@ -45,7 +44,7 @@ describe('reservations repository', () => {
       await createReservation(guest3.id, property.id);
 
       // When
-      const reservations = await getReservationsForProperty(property.id);
+      const reservations = await fetchAllReservationsForProperty(property.id);
 
       // Then
       expect(reservations).toHaveLength(2);
@@ -56,7 +55,7 @@ describe('reservations repository', () => {
     });
   });
 
-  describe('getReservationsForGuest', () => {
+  describe('fetchAllReservationsForGuest', () => {
     it('should return a list of reservations for given guest', async () => {
       // Given
       const owner = await createGuest();
@@ -68,7 +67,7 @@ describe('reservations repository', () => {
       await createReservation(guest.id, property2.id);
 
       // When
-      const reservations = await getReservationsForGuest(guest.id);
+      const reservations = await fetchAllReservationsForGuest(guest.id);
 
       // Then
       expect(reservations).toHaveLength(2);

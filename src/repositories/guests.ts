@@ -10,8 +10,8 @@ export interface CreateGuestPayload {
 /**
  * Fetch all guests from the database.
  */
-export const fetchAllGuests = async () => {
-  return await db.guests.findMany();
+export const fetchAllGuests = () => {
+  return db.guests.findMany();
 };
 
 /**
@@ -34,17 +34,6 @@ export const fetchAllGuestsForProperty = (propertyId: number) => {
           propertyId,
         },
       },
-    },
-  });
-};
-
-/**
- * Fetch all messages for a given guest.
- */
-export const fetchAllMessagesForGuest = (guestId: number) => {
-  return db.messages.findMany({
-    where: {
-      id: guestId,
     },
   });
 };

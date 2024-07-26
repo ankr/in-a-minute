@@ -1,12 +1,9 @@
 import { Router } from 'express';
 
-import {
-  getAllGuests,
-  getAllMessagesForGuest,
-  signupGuest,
-} from '../services/guests';
+import { getAllGuests, signupGuest } from '../services/guests';
 import { validateRequestBody } from '../middleware/validateRequestBody';
 import { signupSchema } from '../schemas/guests';
+import { getAllMessagesForGuest } from '../services/messages';
 
 const router = Router();
 

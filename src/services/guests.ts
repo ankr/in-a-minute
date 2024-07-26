@@ -1,6 +1,7 @@
 import {
   CreateGuestPayload,
   fetchAllGuests,
+  fetchAllGuestsForProperty,
   storeGuest,
 } from '../repositories/guests';
 
@@ -12,6 +13,6 @@ export const signupGuest = (data: CreateGuestPayload) => {
   return storeGuest(data);
 };
 
-export const getAllMessagesForGuest = async (guestId: number) => {
-  return fetchAllMessagesForGuest(guestId);
+export const getAllGuestsForProperty = async (propertyId: number) => {
+  return fetchAllGuestsForProperty(propertyId);
 };

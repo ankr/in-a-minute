@@ -1,38 +1,25 @@
+import type { Guests, Properties } from '@prisma/client';
 import { getConnection } from '../db';
 
 const db = getConnection();
 
 export interface CreateMessagePayload {
-  conversationId: number;
-  guestId: number;
+  guest: Guests;
+  property: Properties;
   message: string;
 }
 
 /**
  * Fetch all messages from the database.
  */
-export const fetchAllMessages = async () => {
-  return await db.messages.findMany();
-};
-
-/**
- * Fetch messages for a conversation.
- */
-export const fetchMessagesForConversation = (conversationId: number) => {
-  return db.messages.findMany({
-    where: {
-      conversationId,
-    },
-    orderBy: {
-      createdAt: 'asc',
-    },
-  });
+export const fetchAllMessages = () => {
+  return db.messages.findMany();
 };
 
 /**
  * Fetch messages for a guest.
  */
-export const fetchMessagesForGuest = (guestId: number) => {
+export const fetchAllMessagesForGuest = (guestId: number) => {
   return db.messages.findMany({
     where: {
       guestId,
@@ -46,6 +33,16 @@ export const fetchMessagesForGuest = (guestId: number) => {
 /**
  * Store a message in the database.
  */
-export const storeMessage = (data: CreateMessagePayload) => {
-  return db.messages.create({ data });
+export const storeMessage = ({
+  guest,
+  property,
+  message,
+}: CreateMessagePayload) => {
+  return db.messages.create({
+    data: {
+      guestId: guest.id,
+      propertyId: property.id,
+      message: message,
+    },
+  });
 };

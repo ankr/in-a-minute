@@ -4,9 +4,10 @@ import {
   createProperty,
   createReservation,
 } from '../../tests/fixtures';
-import { fetchAllGuestsForProperty, fetchAllMessagesForGuest } from './guests';
+import { fetchAllGuestsForProperty } from './guests';
 import { getConnection } from '../db';
 import { PrismaClient } from '@prisma/client';
+import { fetchAllMessagesForGuest } from './messages';
 
 describe('guests repository', () => {
   let db: PrismaClient;
@@ -25,6 +26,7 @@ describe('guests repository', () => {
    */
   afterEach(async () => {
     await db.reservations.deleteMany();
+    await db.messages.deleteMany();
     await db.properties.deleteMany();
     await db.guests.deleteMany();
   });
@@ -45,24 +47,28 @@ describe('guests repository', () => {
       const guests = await fetchAllGuestsForProperty(property.id);
 
       // Then
-      expect(guests).toHaveLength(2);
-      expect(guests).toContainEqual(guest1);
-      expect(guests).not.toContainEqual(guest2);
-      expect(guests).toContainEqual(guest3);
+      const guestIds = guests.map((guest) => guest.id);
+      expect(guestIds).toHaveLength(2);
+      expect(guestIds).toContain(guest1.id);
+      expect(guestIds).toContain(guest3.id);
+      expect(guestIds).not.toContain(guest2.id);
     });
   });
 
   describe('fetchAllMessagesForGuest', () => {
     it('should return a list of messages for a given guest', async () => {
       // Given
+      const owner = await createGuest();
       const guest = await createGuest();
-      const message1 = await createMessage(guest.id);
-      const message2 = await createMessage(guest.id);
+      const property = await createProperty(owner.id);
+      const message1 = await createMessage(guest, property, 'Hello world!');
+      const message2 = await createMessage(guest, property, 'Hello again!');
 
       // When
       const messages = await fetchAllMessagesForGuest(guest.id);
 
       // Then
+      expect(messages).toHaveLength(2);
       expect(messages).toHaveLength(2);
       expect(messages).toContainEqual(message1);
       expect(messages).toContainEqual(message2);

@@ -1,3 +1,5 @@
+import { Guests, Properties } from '@prisma/client';
+import { storeMessage } from '../src/repositories/messages';
 import { CreateGuestPayload, storeGuest } from '../src/repositories/guests';
 import {
   CreatePropertyPayload,
@@ -52,4 +54,15 @@ export const createReservation = (guestId: number, propertyId: number) => {
   };
 
   return storeReservation(reservation);
+};
+
+/**
+ * Create a message for a guest and a property.
+ */
+export const createMessage = (
+  guest: Guests,
+  property: Properties,
+  message: string
+) => {
+  return storeMessage({ guest, property, message });
 };
