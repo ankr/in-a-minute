@@ -3,6 +3,7 @@ import { getConnection } from '../db';
 const db = getConnection();
 
 export interface CreatePropertyPayload {
+  ownerId: number;
   name: string;
 }
 

@@ -1,8 +1,21 @@
-## Testing
+# in-a-minute
 
-Remember to initialize test db the first time you run tests.
-After this just use `npm test` to run tests.
+Some arbritrary codebase :rolling-eyes:
+
+## Installationm
+
+Install dependencies and setup databases.
 
 ```
+npm install
+npm run migrate:dev
 npm run migrate:test
+```
+
+## Testing
+
+After test database has been properly configured using `npm run migrate:test` run:
+
+```
+npm test
 ```

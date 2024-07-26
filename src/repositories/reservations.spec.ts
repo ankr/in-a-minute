@@ -27,20 +27,19 @@ describe('reservations repository', () => {
    * Preferably use a transaction for this purpose
    */
   afterEach(async () => {
-    // Clear relations first
     await db.reservations.deleteMany();
-
-    // Else there could be a race condition here
-    await Promise.all([db.guests.deleteMany(), db.properties.deleteMany()]);
+    await db.properties.deleteMany();
+    await db.guests.deleteMany();
   });
 
   describe('getReservationsForProperty', () => {
     it('should return a list of reservations for given property', async () => {
       // Given
+      const owner = await createGuest();
       const guest1 = await createGuest();
       const guest2 = await createGuest();
       const guest3 = await createGuest();
-      const property = await createProperty();
+      const property = await createProperty(owner.id);
 
       await createReservation(guest1.id, property.id);
       await createReservation(guest3.id, property.id);
@@ -60,9 +59,10 @@ describe('reservations repository', () => {
   describe('getReservationsForGuest', () => {
     it('should return a list of reservations for given guest', async () => {
       // Given
+      const owner = await createGuest();
       const guest = await createGuest();
-      const property1 = await createProperty();
-      const property2 = await createProperty();
+      const property1 = await createProperty(owner.id);
+      const property2 = await createProperty(owner.id);
 
       await createReservation(guest.id, property1.id);
       await createReservation(guest.id, property2.id);
@@ -77,5 +77,5 @@ describe('reservations repository', () => {
       expect(reservations[1].guestId).toBe(guest.id);
       expect(reservations[1].propertyId).toBe(property2.id);
     });
-  }
+  });
 });

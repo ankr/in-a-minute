@@ -9,12 +9,14 @@ datasource db {
 
 model Properties {
   id        Int      @id @default(autoincrement())
+  ownerId   Int      @map("owner_id")
   name      String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   Messages Messages[]
   Reservations Reservations[]
+  Owner Guests @relation(fields: [ownerId], references: [id])
 }
 
 model Guests {
@@ -26,6 +28,7 @@ model Guests {
 
   Messages Messages[]
   Reservations Reservations[]
+  Properties Properties[]
 }
 
 model Reservations {

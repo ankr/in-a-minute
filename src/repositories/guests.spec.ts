@@ -23,20 +23,19 @@ describe('guests repository', () => {
    * Preferably use a transaction for this purpose
    */
   afterEach(async () => {
-    // Clear relations first
     await db.reservations.deleteMany();
-
-    // Else there could be a race condition here
-    await Promise.all([db.guests.deleteMany(), db.properties.deleteMany()]);
+    await db.properties.deleteMany();
+    await db.guests.deleteMany();
   });
 
   describe('fetchAllGuestsForProperty', () => {
     it('should return a list of guests that has any reservations for given property', async () => {
       // Given
+      const owner = await createGuest();
       const guest1 = await createGuest();
       const guest2 = await createGuest(); // Has no reservations
       const guest3 = await createGuest();
-      const property = await createProperty();
+      const property = await createProperty(owner.id);
 
       await createReservation(guest1.id, property.id);
       await createReservation(guest3.id, property.id);

@@ -30,9 +30,10 @@ export const createGuest = (() => {
 export const createProperty = (() => {
   let c = 0;
 
-  return () => {
+  return (ownerId: number) => {
     const property: CreatePropertyPayload = {
       name: `Property (${c++})`,
+      ownerId,
     };
 
     return storeProperty(property);
