@@ -2,13 +2,10 @@ import { PrismaClient } from '@prisma/client';
 import { Application } from 'express';
 import request from 'supertest';
 
-import {
-  createGuest,
-  createMessage,
-  createProperty,
-} from '../../tests/fixtures';
 import { createApp } from '../app';
 import { getConnection } from '../db';
+import { fetchAllMessages } from '../repositories/messages';
+import { createGuest, createProperty } from '../../tests/fixtures';
 
 describe('Messages Controller', () => {
   let app: Application;
@@ -58,6 +55,10 @@ describe('Messages Controller', () => {
         expect(response.body).toHaveProperty('message', message.message);
         expect(response.body).toHaveProperty('guestId', guest.id);
         expect(response.body).toHaveProperty('propertyId', property.id);
+
+        const messages = await fetchAllMessages();
+        expect(messages).toHaveLength(1);
+        expect(messages[0]).toMatchObject(message);
       });
     });
   });

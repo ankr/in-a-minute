@@ -79,13 +79,16 @@ describe('/guests', () => {
         const property2 = await createProperty(owner1);
         const property3 = await createProperty(owner2);
 
+        // Guest 2 has reservation here
         await createMessage(guest1, property1, 'Hello from 1 to 1!');
         await createMessage(guest2, property1, 'Hello from 2 to 1!');
         await createMessage(guest3, property1, 'Hello from 3 to 1!');
 
+        // Guest 2 has no reservation here
         await createMessage(guest1, property2, 'Hello from 1 to 2!');
         await createMessage(guest3, property2, 'Hello from 3 to 2!');
 
+        // Guest 2 has reservation here
         await createMessage(guest1, property3, 'Hello from 1 to 3!');
         await createMessage(guest2, property3, 'Hello from 2 to 3!');
         await createMessage(guest3, property3, 'Hello from 3 to 3!');
@@ -101,9 +104,11 @@ describe('/guests', () => {
         expect(response.body).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
+              guestId: guest2.id,
               message: 'Hello from 2 to 1!',
             }),
             expect.objectContaining({
+              guestId: guest2.id,
               message: 'Hello from 2 to 3!',
             }),
           ])
