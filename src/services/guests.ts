@@ -11,3 +11,7 @@ export const getAllGuests = async () => {
 export const signupGuest = (data: CreateGuestPayload) => {
   return storeGuest(data);
 };
+
+export const getAllMessagesForGuest = async (guestId: number) => {
+  return fetchAllMessagesForGuest(guestId);
+};

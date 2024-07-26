@@ -4,10 +4,21 @@ Some arbritrary codebase :rolling-eyes:
 
 ## Installationm
 
-Install dependencies and setup databases.
+Install dependencies.
 
 ```
 npm install
+```
+
+Start docker container for databases.
+
+```
+docker compose up
+```
+
+Setup app and test database.
+
+```
 npm run migrate:dev
 npm run migrate:test
 ```
