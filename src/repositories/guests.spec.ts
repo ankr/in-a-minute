@@ -38,10 +38,10 @@ describe('guests repository', () => {
       const guest1 = await createGuest();
       const guest2 = await createGuest(); // Has no reservations
       const guest3 = await createGuest();
-      const property = await createProperty(owner.id);
+      const property = await createProperty(owner);
 
-      await createReservation(guest1.id, property.id);
-      await createReservation(guest3.id, property.id);
+      await createReservation(guest1, property);
+      await createReservation(guest3, property);
 
       // When
       const guests = await fetchAllGuestsForProperty(property.id);
@@ -60,7 +60,7 @@ describe('guests repository', () => {
       // Given
       const owner = await createGuest();
       const guest = await createGuest();
-      const property = await createProperty(owner.id);
+      const property = await createProperty(owner);
       const message1 = await createMessage(guest, property, 'Hello world!');
       const message2 = await createMessage(guest, property, 'Hello again!');
 

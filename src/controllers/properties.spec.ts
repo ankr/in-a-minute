@@ -39,10 +39,10 @@ describe('/properties', () => {
       const guest1 = await createGuest();
       const guest2 = await createGuest(); // Has no reservations
       const guest3 = await createGuest();
-      const property = await createProperty(owner.id);
+      const property = await createProperty(owner);
 
-      await createReservation(guest1.id, property.id);
-      await createReservation(guest3.id, property.id);
+      await createReservation(guest1, property);
+      await createReservation(guest3, property);
 
       const r = await request(app).get(`/reservations`);
 

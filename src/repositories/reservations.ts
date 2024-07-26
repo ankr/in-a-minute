@@ -1,3 +1,4 @@
+import { Guests, Properties } from '@prisma/client';
 import { getConnection } from '../db';
 
 const db = getConnection();

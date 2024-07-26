@@ -32,10 +32,10 @@ export const createGuest = (() => {
 export const createProperty = (() => {
   let c = 0;
 
-  return (ownerId: number) => {
+  return (owner: Guests) => {
     const property: CreatePropertyPayload = {
       name: `Property (${c++})`,
-      ownerId,
+      ownerId: owner.id,
     };
 
     return storeProperty(property);
@@ -45,10 +45,10 @@ export const createProperty = (() => {
 /**
  * Create a reservation for a guest and a property.
  */
-export const createReservation = (guestId: number, propertyId: number) => {
+export const createReservation = (guest: Guests, property: Properties) => {
   const reservation: CreateReservationPayload = {
-    guestId,
-    propertyId,
+    guestId: guest.id,
+    propertyId: property.id,
     checkIn: new Date('2021-01-01'),
     checkOut: new Date('2021-01-05'),
   };

@@ -26,11 +26,6 @@ describe('/guests', () => {
     await Promise.all([db.guests.deleteMany()]);
   });
 
-  // Making sure the wiring is correct
-  test('make sure app is initialized', () => {
-    expect(app).toBeDefined();
-  });
-
   describe('GET /', () => {
     test('should return a list of all guests in database', async () => {
       // Given
