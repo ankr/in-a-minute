@@ -1,11 +1,9 @@
+import { Guest } from '@prisma/client';
 import { getConnection } from '../db';
 
 const db = getConnection();
 
-export interface CreateGuestPayload {
-  name: string;
-  phone: string;
-}
+export type CreateGuestPayload = Pick<Guest, 'name' | 'phone'>;
 
 /**
  * Fetch all guests from the database.
