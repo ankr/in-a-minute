@@ -1,11 +1,11 @@
-import type { Guests, Properties } from '@prisma/client';
+import type { Guest, Property } from '@prisma/client';
 import { getConnection } from '../db';
 
 const db = getConnection();
 
 export interface CreateMessagePayload {
-  guest: Guests;
-  property: Properties;
+  guest: Guest;
+  property: Property;
   message: string;
 }
 
@@ -13,14 +13,14 @@ export interface CreateMessagePayload {
  * Fetch all messages from the database.
  */
 export const fetchAllMessages = () => {
-  return db.messages.findMany();
+  return db.message.findMany();
 };
 
 /**
  * Fetch messages for a guest.
  */
 export const fetchAllMessagesForGuest = (guestId: number) => {
-  return db.messages.findMany({
+  return db.message.findMany({
     where: {
       guestId,
     },
@@ -38,7 +38,7 @@ export const storeMessage = ({
   property,
   message,
 }: CreateMessagePayload) => {
-  return db.messages.create({
+  return db.message.create({
     data: {
       guestId: guest.id,
       propertyId: property.id,

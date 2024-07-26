@@ -11,14 +11,14 @@ export interface CreateGuestPayload {
  * Fetch all guests from the database.
  */
 export const fetchAllGuests = () => {
-  return db.guests.findMany();
+  return db.guest.findMany();
 };
 
 /**
  * Return all guests that has a reservations for a given property, inlcuding the reservations.
  */
 export const fetchAllGuestsForProperty = (propertyId: number) => {
-  return db.guests.findMany({
+  return db.guest.findMany({
     where: {
       Reservations: {
         some: {
@@ -42,5 +42,5 @@ export const fetchAllGuestsForProperty = (propertyId: number) => {
  * Store a guest in the database.
  */
 export const storeGuest = (data: CreateGuestPayload) => {
-  return db.guests.create({ data });
+  return db.guest.create({ data });
 };

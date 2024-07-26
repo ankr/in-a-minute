@@ -1,4 +1,4 @@
-import { Guests, Properties } from '@prisma/client';
+import { Guest, Property } from '@prisma/client';
 import { storeMessage } from '../src/repositories/messages';
 import { CreateGuestPayload, storeGuest } from '../src/repositories/guests';
 import {
@@ -32,7 +32,7 @@ export const createGuest = (() => {
 export const createProperty = (() => {
   let c = 0;
 
-  return (owner: Guests) => {
+  return (owner: Guest) => {
     const property: CreatePropertyPayload = {
       name: `Property (${c++})`,
       ownerId: owner.id,
@@ -45,7 +45,7 @@ export const createProperty = (() => {
 /**
  * Create a reservation for a guest and a property.
  */
-export const createReservation = (guest: Guests, property: Properties) => {
+export const createReservation = (guest: Guest, property: Property) => {
   const reservation: CreateReservationPayload = {
     guestId: guest.id,
     propertyId: property.id,
@@ -60,8 +60,8 @@ export const createReservation = (guest: Guests, property: Properties) => {
  * Create a message for a guest and a property.
  */
 export const createMessage = (
-  guest: Guests,
-  property: Properties,
+  guest: Guest,
+  property: Property,
   message: string
 ) => {
   return storeMessage({ guest, property, message });

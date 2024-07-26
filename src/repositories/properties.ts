@@ -11,12 +11,12 @@ export interface CreatePropertyPayload {
  * Fetch all properties from the database.
  */
 export const fetchAllProperties = () => {
-  return db.properties.findMany();
+  return db.property.findMany();
 };
 
 /**
  * Store a new property in the database.
  */
 export const storeProperty = (data: CreatePropertyPayload) => {
-  return db.properties.create({ data });
+  return db.property.create({ data });
 };

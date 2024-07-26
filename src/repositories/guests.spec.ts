@@ -25,10 +25,10 @@ describe('guests repository', () => {
    * Preferably use a transaction for this purpose
    */
   afterEach(async () => {
-    await db.reservations.deleteMany();
-    await db.messages.deleteMany();
-    await db.properties.deleteMany();
-    await db.guests.deleteMany();
+    await db.reservation.deleteMany();
+    await db.message.deleteMany();
+    await db.property.deleteMany();
+    await db.guest.deleteMany();
   });
 
   describe('fetchAllGuestsForProperty', () => {

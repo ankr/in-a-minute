@@ -23,7 +23,7 @@ describe('/guests', () => {
    * Preferably use a transaction for this purpose
    */
   afterEach(async () => {
-    await Promise.all([db.guests.deleteMany()]);
+    await Promise.all([db.guest.deleteMany()]);
   });
 
   describe('GET /', () => {

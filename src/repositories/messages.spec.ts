@@ -18,9 +18,9 @@ describe('messages repository', () => {
    * Preferably use a transaction for this purpose
    */
   afterEach(async () => {
-    await db.messages.deleteMany();
-    await db.properties.deleteMany();
-    await db.guests.deleteMany();
+    await db.message.deleteMany();
+    await db.property.deleteMany();
+    await db.guest.deleteMany();
   });
 
   describe('getAllMessages', () => {
