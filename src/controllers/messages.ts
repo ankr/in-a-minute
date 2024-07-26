@@ -7,12 +7,18 @@ import { Guest, Property } from '@prisma/client';
 
 const router = Router();
 
+/**
+ * Route for fetching all messages.
+ */
 router.get('/', async (req, res) => {
   const messages = await getAllMessages();
 
   res.status(200).send(messages);
 });
 
+/**
+ * Route for sending a message from a `property` to a `guest`.
+ */
 router.post('/send', async (req, res) => {
   const { guestId, propertyId, message } = req.body;
 
