@@ -7,31 +7,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Properties {
+model Property {
   id        Int      @id @default(autoincrement())
   ownerId   Int      @map("owner_id")
   name      String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  Messages Messages[]
-  Reservations Reservations[]
-  Owner Guests @relation(fields: [ownerId], references: [id])
+  Messages     Message[]
+  Reservations Reservation[]
+  Owner        Guest @relation(fields: [ownerId], references: [id])
 }
 
-model Guests {
+model Guest {
   id        Int      @id @default(autoincrement())
   name      String
   phone     String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  Messages Messages[]
-  Reservations Reservations[]
-  Properties Properties[]
+  Messages     Message[]
+  Reservations Reservation[]
+  Properties   Property[]
 }
 
-model Reservations {
+model Reservation {
   id         Int      @id @default(autoincrement())
   guestId    Int      @map("guest_id")
   propertyId Int      @map("property_id")
@@ -40,11 +40,11 @@ model Reservations {
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
-  Guest    Guests @relation(fields: [guestId], references: [id])
-  Property Properties @relation(fields: [propertyId], references: [id])
+  Guest    Guest    @relation(fields: [guestId], references: [id])
+  Property Property @relation(fields: [propertyId], references: [id])
 }
 
-model Messages {
+model Message {
   id         Int      @id @default(autoincrement())
   guestId    Int      @map("guest_id")
   propertyId Int      @map("property_id")
@@ -52,6 +52,6 @@ model Messages {
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
-  Guest    Guests @relation(fields: [guestId], references: [id])
-  Property Properties @relation(fields: [propertyId], references: [id])
+  Guest    Guest    @relation(fields: [guestId], references: [id])
+  Property Property @relation(fields: [propertyId], references: [id])
 }
