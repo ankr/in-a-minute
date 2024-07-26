@@ -14,6 +14,10 @@ export const fetchAllGuests = () => {
   return db.guest.findMany();
 };
 
+export const fetchGuest = (guestId: number) => {
+  return db.guest.findFirst({ where: { id: guestId } });
+};
+
 /**
  * Return all guests that has a reservations for a given property, inlcuding the reservations.
  */

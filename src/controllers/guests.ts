@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { getAllGuests, signupGuest } from '../services/guests';
+import { getAllGuests, createGuest } from '../services/guests';
 import { validateRequestBody } from '../middleware/validateRequestBody';
 import { signupSchema } from '../schemas/guests';
 import { getAllMessagesForGuest } from '../services/messages';
@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 
 router.post('/signup', validateRequestBody(signupSchema), async (req, res) => {
   const { name, phone } = req.body;
-  const result = await signupGuest({ name, phone });
+  const result = await createGuest({ name, phone });
 
   res.status(201).send(result);
 });

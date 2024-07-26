@@ -15,6 +15,13 @@ export const fetchAllProperties = () => {
 };
 
 /**
+ * Fetch a single property from the database.
+ */
+export const fetchProperty = (propertyId: number) => {
+  return db.property.findFirst({ where: { id: propertyId } });
+};
+
+/**
  * Store a new property in the database.
  */
 export const storeProperty = (data: CreatePropertyPayload) => {
