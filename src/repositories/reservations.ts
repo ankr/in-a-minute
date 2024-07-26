@@ -16,3 +16,19 @@ export const fetchAllReservations = async () => {
 export const storeReservation = async (data: CreateReservationPayload) => {
   return await db.reservations.create({ data });
 };
+
+export const getReservationsForProperty = async (propertyId: number) => {
+  return await db.reservations.findMany({
+    where: {
+      propertyId,
+    },
+  });
+};
+
+export const getReservationsForGuest = async (guestId: number) => {
+  return await db.reservations.findMany({
+    where: {
+      guestId,
+    },
+  });
+};
